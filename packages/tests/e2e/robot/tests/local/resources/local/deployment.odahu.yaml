@@ -1,0 +1,6 @@
+id: wine-tutorial
+kind: ModelDeployment
+spec:
+  image:
+  minReplicas: 1
+  ImagePullConnectionID: docker-ci

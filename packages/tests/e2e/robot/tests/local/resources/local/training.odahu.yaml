@@ -1,0 +1,22 @@
+kind: ModelTraining
+id: wine-id-train
+spec:
+  model:
+    name: wine-name
+    version: 1.0
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  data:                                                                                   #  not used during local training
+    - connName: wine-tutorial                                                             #  not used during local training
+      localPath: my-wine-tutorial/data/wine-quality.csv # wine-quality.csv file (on GCS)  #  not used during local training
+  hyperParameters:
+    alpha: "1.0"
+  resources:                                                                              #  not used during local training
+    limits:                                                                               #  not used during local training
+      cpu: 4048m                                                                          #  not used during local training
+      memory: 4048Mi                                                                      #  not used during local training
+    requests:                                                                             #  not used during local training
+      cpu: 4048m                                                                          #  not used during local training
+      memory: 4048Mi                                                                      #  not used during local training
+  vcsName: odahu-flow-tutorial                                                            #  not used during local training

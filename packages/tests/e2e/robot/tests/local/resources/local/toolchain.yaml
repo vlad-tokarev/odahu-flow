@@ -1,0 +1,5 @@
+kind: ToolchainIntegration
+id: mlflow
+spec:
+  defaultImage: "odahu/odahu-flow-mlflow-toolchain:1.1.0-rc11"
+  entrypoint: /opt/conda/bin/odahu-flow-mlflow-runner
