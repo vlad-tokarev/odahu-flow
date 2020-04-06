@@ -1,22 +1,317 @@
+kind: ToolchainIntegration
+id: mlflow
+spec:
+  defaultImage: "odahu/odahu-flow-mlflow-toolchain:1.1.0-rc11"
+  entrypoint: /opt/conda/bin/odahu-flow-mlflow-runner
+---
 kind: ModelTraining
-id: wine-id-train
+id: wine-id-d
 spec:
   model:
-    name: wine-name
+    name: wine-name-d
     version: 1.0
+    artifactNameTemplate:
   toolchain: mlflow  # MLFlow training toolchain integration
   entrypoint: main
   workDir: resources/  # MLproject location (in GitHub)
-  data:                                                                                   #  not used during local training
-    - connName: wine-tutorial                                                             #  not used during local training
-      localPath: my-wine-tutorial/data/wine-quality.csv # wine-quality.csv file (on GCS)  #  not used during local training
   hyperParameters:
     alpha: "1.0"
-  resources:                                                                              #  not used during local training
-    limits:                                                                               #  not used during local training
-      cpu: 4048m                                                                          #  not used during local training
-      memory: 4048Mi                                                                      #  not used during local training
-    requests:                                                                             #  not used during local training
-      cpu: 4048m                                                                          #  not used during local training
-      memory: 4048Mi                                                                      #  not used during local training
-  vcsName: odahu-flow-tutorial                                                            #  not used during local training
+---
+kind: ModelTraining
+id: wine-id-d-output
+spec:
+  model:
+    name: wine-name-d-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-d-output-dir
+spec:
+  model:
+    name: wine-name-d-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-f
+spec:
+  model:
+    name: wine-name-f
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-f-output
+spec:
+  model:
+    name: wine-name-f-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-f-output-dir
+spec:
+  model:
+    name: wine-name-f-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-dir
+spec:
+  model:
+    name: wine-name-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-dir-output
+spec:
+  model:
+    name: wine-name-dir-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-dir-output-dir
+spec:
+  model:
+    name: wine-name-dir-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-file
+spec:
+  model:
+    name: wine-name-file
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-file-output
+spec:
+  model:
+    name: wine-name-file-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-id-file-output-dir
+spec:
+  model:
+    name: wine-name-file-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-d
+spec:
+  model:
+    name: wine-name-id-d
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-d-output
+spec:
+  model:
+    name: wine-name-id-d-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-d-output-dir
+spec:
+  model:
+    name: wine-name-id-d-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-f
+spec:
+  model:
+    name: wine-name-id-f
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-f-output
+spec:
+  model:
+    name: wine-name-id-f-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-f-output-dir
+spec:
+  model:
+    name: wine-name-id-f-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-dir
+spec:
+  model:
+    name: wine-name-id-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-dir-output
+spec:
+  model:
+    name: wine-name-id-dir-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-dir-output-dir
+spec:
+  model:
+    name: wine-name-id-dir-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-file
+spec:
+  model:
+    name: wine-name-id-file
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-file-output
+spec:
+  model:
+    name: wine-name-id-file-output
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"
+---
+kind: ModelTraining
+id: wine-train-id-file-output-dir
+spec:
+  model:
+    name: wine-name-id-file-output-dir
+    version: 1.0
+    artifactNameTemplate:
+  toolchain: mlflow  # MLFlow training toolchain integration
+  entrypoint: main
+  workDir: resources/  # MLproject location (in GitHub)
+  hyperParameters:
+    alpha: "1.0"

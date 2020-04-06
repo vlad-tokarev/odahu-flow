@@ -50,25 +50,4 @@ ${CTL_LOCAL_TRAIN_RUN_ERR}     SEPARATOR=
 ...                            Try 'odahuflowctl local train run --help' for help.                       \n
 ...                                                                                                      \n
 ...                            Error: Missing option '--train-id' / '--id'.
-${CTL_LOCAL_TRAIN_RUN_OUT}     SEPARATOR=
-...                            Usage: odahuflowctl local train run [OPTIONS]                             \n
-...                                                                                                      \n
-...                            \ \ Start a training process locally.                                     \n
-...                                                                                                      \n
-...                            \ \ Usage example:                                                        \n
-...                                                                                                      \n
-...                            ${SPACE * 6}* odahuflowctl local train run --id examples-git              \n
-...                                                                                                      \n
 
-Usage example:
-
-      * odahuflowctl local train run --id examples-git
-
-Options:
-  --train-id, --id TEXT        Model training ID  [required]
-  -f, --manifest-file PATH     Path to a ODAHU-flow manifest file
-  -d, --manifest-dir PATH      Path to a directory with ODAHU-flow manifest
-                               files
-
-  --output-dir, --output PATH  Directory where model artifact will be saved
-  --help                       Show this message and exit.
