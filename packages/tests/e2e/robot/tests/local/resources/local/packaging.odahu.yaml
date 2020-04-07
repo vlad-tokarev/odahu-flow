@@ -5,4 +5,3 @@ spec:
   targets:
     - connectionName: docker-ci  # Docker registry when output image will be stored
       name: docker-push
-  integrationName: docker-rest  # REST API Packager

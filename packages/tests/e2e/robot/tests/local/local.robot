@@ -19,6 +19,7 @@ Force Tags          local e2e
 
 *** Variables ***
 @{TRAINING LIST}
+${manigest dir}    resources/local
 
 *** Keywords ***
 odahuflowctl local train run should pass
@@ -30,17 +31,29 @@ odahuflowctl local train run should pass
                      Log  ${resp.stdout}
 
 odahuflowctl local train run should fail
-    [Documentation]  Verify variuos valid combination of model training ID, Path to a odahu-flow manifest file or
-    ...              Path to a dir with ODAHU-flow manifest files and dir where model artifacts will be saved
+    [Documentation]  Verify variuos invalid cases of training options
     [Arguments]      ${train id}  ${manifest file}  ${output dir}=
     ${resp}=         FailedShell  odahuflowctl local train run ${train id} ${manifest file} ${output dir}
                     #  Should contain   ${resp.stderr}  ${train id}  ${file}  ${dir}  ${output dir}
 
 odahuflowctl local pack run should pass
-    [Documentation]  Verify variuos valid combination of model training ID, Path to a odahu-flow manifest file or
-    ...              Path to a dir with ODAHU-flow manifest files and dir where model artifacts will be saved
+    [Documentation]  Verify variuos valid combination of local model packaging options
     [Arguments]      ${pack id}  ${manifest file}  ${artifact name}  ${artifact path}=  ${disable-package-targets}=
     ${resp}=         StrictShell  odahuflowctl --verbose local pack run ${pack id} ${manifest file} ${artifact name} ${artifact path} ${disable-package-targets}
+
+odahuflowctl local pack run should fail
+    [Documentation]  Verify variuos invalid cases of training options
+    [Arguments]      ${train id}  ${manifest file}  ${output dir}=
+    ${resp}=         FailedShell  odahuflowctl local pack run ${train id} ${manifest file} ${output dir}
+
+odahuflowctl test packaged model
+    StrictShell  odahuflowctl --verbose dep create -f ${manifest dir}/deployment.odahuflow.yaml --image ${res.stdout} --id ${example_id}
+
+    Wait Until Keyword Succeeds  1m  0 sec  StrictShell  odahuflowctl model info --mr ${example_id}
+    Wait Until Keyword Succeeds  1m  0 sec  StrictShell  odahuflowctl model invoke --mr ${example_id} --json-file $${manifest dir}/request.json
+
+    ${res}=  Shell  odahuflowctl model invoke --mr ${example_id} --json-file ${manifest dir}/request.json --jwt wrong-token
+    should not be equal  ${res.rc}  0
 
 *** Test Cases ***
 #odahuflowctl
@@ -83,68 +96,81 @@ odahuflowctl local pack run should pass
 odahuflowctl local train run valid
     [Template]      odahuflowctl local train run should pass
     #  ${train id}                                 ${manifest file}                                         ${output dir}
-    --id wine-id-d                                -d resources/local/
-    --id wine-id-d-output                         -d resources/local/                                      --output ${CURDIR}/outputs/
-#    --id wine-id-d-ouput-dir                      -d resources/local/                                      --output-dir ${CURDIR}/outputs/
-#    --id wine-id-f                                -f resources/local/training.odahu.yaml
-#    --id wine-id-f-output                         -f resources/local/training.odahu.yaml                   --output ${CURDIR}/outputs/
-#    --id wine-id-f-output-dir                     -f resources/local/training.odahu.yaml                   --output-dir ${CURDIR}/outputs/
-#    --id wine-id-dir                              --manifest-dir resources/local/
-#    --id wine-id-dir-output                       --manifest-dir resources/local/                          --output ${CURDIR}/outputs/
-#    --id wine-id-dir-output-dir                   --manifest-dir resources/local/                          --output-dir ${CURDIR}/outputs/
-#    --id wine-id-file                             --manifest-file resources/local/training.odahu.yaml
-#    --id wine-id-file-output                      --manifest-file resources/local/training.odahu.yaml      --output ${CURDIR}/outputs/
-#    --id wine-id-file-output-dir                  --manifest-file resources/local/training.odahu.yaml      --output-dir ${CURDIR}/outputs/
-#    --train-id wine-train-id-d                    -d resources/local/
-#    --train-id wine-train-id-d-output             -d resources/local/                                      --output ${CURDIR}/outputs/
-#    --train-id wine-train-id-d-ouput-dir          -d resources/local/                                      --output-dir ${CURDIR}/outputs/
-#    --train-id wine-train-id-f                    -f resources/local/training.odahu.yaml
-#    --train-id wine-train-id-f-output             -f resources/local/training.odahu.yaml                   --output ${CURDIR}/outputs/
-#    --train-id wine-train-id-f-output-dir         -f resources/local/training.odahu.yaml                   --output-dir ${CURDIR}/outputs/
-#    --train-id wine-train-id-dir                  --manifest-dir resources/local/
-#    --train-id wine-train-id-dir-output           --manifest-dir resources/local/                          --output ${CURDIR}/outputs/
-#    --train-id wine-train-id-dir-output-dir       --manifest-dir resources/local/                          --output-dir ${CURDIR}/outputs/
-#    --train-id wine-train-id-file                 --manifest-file resources/local/training.odahu.yaml
-#    --train-id wine-train-id-file-output          --manifest-file resources/local/training.odahu.yaml      --output ${CURDIR}/outputs/
-#    --train-id wine-train-id-file-output-dir      --manifest-file resources/local/training.odahu.yaml      --output-dir ${CURDIR}/outputs/
+    --id wine-id-d                                -d ${manifest dir}/
+    --id wine-id-d-output                         -d ${manifest dir}/                                      --output ${CURDIR}/outputs/
+#    --id wine-id-d-ouput-dir                      -d ${manifest dir}/                                      --output-dir ${CURDIR}/outputs/
+#    --id wine-id-f                                -f ${manifest dir}/training.odahu.yaml
+#    --id wine-id-f-output                         -f ${manifest dir}/training.odahu.yaml                   --output ${CURDIR}/outputs/
+#    --id wine-id-f-output-dir                     -f ${manifest dir}/training.odahu.yaml                   --output-dir ${CURDIR}/outputs/
+#    --id wine-id-dir                              --manifest-dir ${manifest dir}/
+#    --id wine-id-dir-output                       --manifest-dir ${manifest dir}/                          --output ${CURDIR}/outputs/
+#    --id wine-id-dir-output-dir                   --manifest-dir ${manifest dir}/                          --output-dir ${CURDIR}/outputs/
+#    --id wine-id-file                             --manifest-file ${manifest dir}/training.odahu.yaml
+#    --id wine-id-file-output                      --manifest-file ${manifest dir}/training.odahu.yaml      --output ${CURDIR}/outputs/
+#    --id wine-id-file-output-dir                  --manifest-file ${manifest dir}/training.odahu.yaml      --output-dir ${CURDIR}/outputs/
+#    --train-id wine-train-id-d                    -d ${manifest dir}/
+#    --train-id wine-train-id-d-output             -d ${manifest dir}/                                      --output ${CURDIR}/outputs/
+#    --train-id wine-train-id-d-ouput-dir          -d ${manifest dir}/                                      --output-dir ${CURDIR}/outputs/
+#    --train-id wine-train-id-f                    -f ${manifest dir}/training.odahu.yaml
+#    --train-id wine-train-id-f-output             -f ${manifest dir}/training.odahu.yaml                   --output ${CURDIR}/outputs/
+#    --train-id wine-train-id-f-output-dir         -f ${manifest dir}/training.odahu.yaml                   --output-dir ${CURDIR}/outputs/
+#    --train-id wine-train-id-dir                  --manifest-dir ${manifest dir}/
+#    --train-id wine-train-id-dir-output           --manifest-dir ${manifest dir}/                          --output ${CURDIR}/outputs/
+#    --train-id wine-train-id-dir-output-dir       --manifest-dir ${manifest dir}/                          --output-dir ${CURDIR}/outputs/
+#    --train-id wine-train-id-file                 --manifest-file ${manifest dir}/training.odahu.yaml
+#    --train-id wine-train-id-file-output          --manifest-file ${manifest dir}/training.odahu.yaml      --output ${CURDIR}/outputs/
+#    --train-id wine-train-id-file-output-dir      --manifest-file ${manifest dir}/training.odahu.yaml      --output-dir ${CURDIR}/outputs/
 
 odahuflowctl local train run invalid
     [Template]      odahuflowctl local train run should fail
     #  ${train id}                ${manifest file}                                         ${output dir}
     #  wrong train id
-    --id wine-id-trai             --manifest-file resources/local/training.odahu.yaml      -output ${CURDIR}/outputs/
+    --id wine-id-trai             --manifest-file ${manifest dir}/training.odahu.yaml      -output ${CURDIR}/outputs/
     #  manifest dir without training-id
     --train-id wine-id-d          --manifest-dir resources/
     #  manifest file without training-id
-    --id wine-id-f-output         --manifest-file resources/local/training.odahu.yaml
+    --id wine-id-f-output         --manifest-file ${manifest dir}/packaging.odahu.yaml
     #  path to manifest file instead of manifest dir
-    --id wine-id-trian            --manifest-dir resources/local/training.odahu.yaml
+    --id wine-id-trian            --manifest-dir ${manifest dir}/training.odahu.yaml
     #  path to manifest dir instead of manifest file
-    --id wine-id-trian            --manifest-file resources/local/                         -output ${CURDIR}/outputs/
+    --id wine-id-trian            --manifest-file ${manifest dir}/                         -output ${CURDIR}/outputs/
 
 odahuflowctl local train list
     ${resp}=         StrictShell  odahuflowctl --verbose local train list
                      Should Contain  ${resp.stdout}  @{TRAINING LIST}
 
-odahuflowctl local pack run valid
+
+#odahuflowctl local pack run valid
+#    [Template]     odahuflowctl local pack run should pass
+#    #  ${pack id}                    ${manifest file}                                       ${artifact name}                   ${artifact path}                         ${disable-package-targets}
+#    --id pack-id-d                   -d ${manifest dir}/                                    -a @{TRAINING LIST}
+#    --id pack-id-d-output            -d ${manifest dir}/                                                                       --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-d-ouput-dir         -d ${manifest dir}/                                                                       --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-f                   -f ${manifest dir}/packaging.odahu.yaml
+#    --id pack-id-f-output            -f ${manifest dir}/packaging.odahu.yaml                                                   --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-f-output-dir        -f ${manifest dir}/packaging.odahu.yaml                                                   --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-dir                 --manifest-dir ${manifest dir}/
+#    --id pack-id-dir-output          --manifest-dir ${manifest dir}/                                                           --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-dir-output-dir      --manifest-dir ${manifest dir}/                                                           --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-file                --manifest-file ${manifest dir}/packaging.odahu.yaml
+#    --id pack-id-file-output         --manifest-file ${manifest dir}/packaging.odahu.yaml                                      --artifact-path ${CURDIR}/outputs/
+#    --id pack-id-file-output-dir     --manifest-file ${manifest dir}/packaging.odahu.yaml                                      --artifact-path ${CURDIR}/outputs/
+#    --pack-id pack-id-d              -d ${manifest dir}/
 
 odahuflowctl local pack run invalid
-#
-#
-#
-#
-#
-#
-#StrictShell  odahuflowctl --verbose train create -f ${manifests_dir}/training.odahuflow.yaml --id ${example_id}
-#${res}=  StrictShell  odahuflowctl train get --id ${example_id} -o 'jsonpath=$[0].status.artifacts[0].artifactName'
-#
-#StrictShell  odahuflowctl --verbose pack create -f ${manifests_dir}/packaging.odahuflow.yaml --artifact-name ${res.stdout} --id ${example_id}
-#${res}=  StrictShell  odahuflowctl pack get --id ${example_id} -o 'jsonpath=$[0].status.results[0].value'
-#
-#StrictShell  odahuflowctl --verbose dep create -f ${manifests_dir}/deployment.odahuflow.yaml --image ${res.stdout} --id ${example_id}
-#
-#Wait Until Keyword Succeeds  1m  0 sec  StrictShell  odahuflowctl model info --mr ${example_id}
-#Wait Until Keyword Succeeds  1m  0 sec  StrictShell  odahuflowctl model invoke --mr ${example_id} --json-file ${manifests_dir}/request.json
-#
-#${res}=  Shell  odahuflowctl model invoke --mr ${example_id} --json-file ${manifests_dir}/request.json --jwt wrong-token
-#should not be equal  ${res.rc}  0
+    #  ${pack id}                    ${manifest file}                                         ${artifact name}                   ${artifact path}         ${disable-package-targets}
+    #  wrong pack id
+    --id pack-id-invalid             --manifest-file ${manifest dir}/packaging.odahu.yaml     -output ${CURDIR}/outputs/
+    #  manifest dir without pack-id
+    --id pack-id-d                   --manifest-dir resources/
+    #  manifest file without pack-id
+    --id pack-id-f-output            --manifest-file ${manifest dir}/training.odahu.yaml
+    #  path to manifest file instead of manifest dir
+    --id pack-id-f                   --manifest-dir ${manifest dir}/packaging.odahu.yaml
+    #  path to manifest dir instead of manifest file
+    --id pack-id-dir                 --manifest-file ${manifest dir}/                         -output ${CURDIR}/outputs/
+    # artifact path to the folder where artifact training doesn't exist
+    --id pack-id-d-output            -d ${manifest dir}/               ${artifact path}=--artifact-path ${CURDIR}/
+
+
+
