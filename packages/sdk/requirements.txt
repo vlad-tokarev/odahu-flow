@@ -1,6 +1,6 @@
-requests>=2.22.0
+requests>=2.31.0
 urllib3>=1.24.3
-jinja2>=2.7.3
+jinja2>=3.1.4
 pyyaml>=3.1.2
 aiohttp>=3.6.2
 pydantic>=1.2
@@ -8,3 +8,5 @@ dataclasses>=0.6
 typing-extensions>=3.6.5
 idna-ssl>=1.1.0
 docker>=4.2.0
+certifi>=2023.7.22 # not directly required, pinned by Snyk to avoid a vulnerability
+idna>=3.7 # not directly required, pinned by Snyk to avoid a vulnerability
