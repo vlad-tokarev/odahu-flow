@@ -1,8 +1,8 @@
 six>=1.12.0
 urllib3>=1.24.3
-requests>=2.22.0
+requests>=2.32.2
 kubernetes==11.0.0
-jinja2>=2.10.1
+jinja2>=3.1.4
 boto3>=1.9.75
 botocore>=1.12.75
 robotframework>=3.0.2
@@ -13,3 +13,12 @@ azure-storage-blob<=2.1.0
 azure-cli-core>=2.0.75
 azure-mgmt-storage==2.0.0
 azure-core>=1.1.0
+certifi>=2024.7.4 # not directly required, pinned by Snyk to avoid a vulnerability
+cryptography>=42.0.8 # not directly required, pinned by Snyk to avoid a vulnerability
+idna>=3.7 # not directly required, pinned by Snyk to avoid a vulnerability
+paramiko>=3.4.0 # not directly required, pinned by Snyk to avoid a vulnerability
+protobuf>=3.18.3 # not directly required, pinned by Snyk to avoid a vulnerability
+pygments>=2.15.0 # not directly required, pinned by Snyk to avoid a vulnerability
+pyjwt>=2.4.0 # not directly required, pinned by Snyk to avoid a vulnerability
+rsa>=4.7 # not directly required, pinned by Snyk to avoid a vulnerability
+setuptools>=70.0.0 # not directly required, pinned by Snyk to avoid a vulnerability
